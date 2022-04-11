@@ -13,7 +13,12 @@ if($vpn -like "need"){
 $tag = $False
 $name = $UserName+"@"+$Server
 while(!$tag){
-	ssh -i $key -p $Port -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $name
+	if($key){
+		ssh -i $key -p $Port -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $name
+	}
+	else{
+		ssh $name
+	}
 	$tag = Test-Port -ComputerName $Server -port $Port
 	# $tag
 	if(!$tag){
@@ -22,4 +27,4 @@ while(!$tag){
 }
 "Finished!"
 
-# ./vpn.ps1 -vpn  -VPNName  -VPNPort  -key  -Username  -Server  -Port 
+# ./vpn.ps1 -vpn  -VPNName  -VPNPort  -key  -UserName  -Server  -Port 
